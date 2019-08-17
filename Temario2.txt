@@ -1,0 +1,32 @@
+Binary Search, Ternary Search
+Sieve of Eratosthenes for finding primes
+Segment tree (with lazy propagation)
+Binary Index tree ( Also known as Fenwick Tree)
+Number Theory
+Heap / Priority Queue
+Sparse Table
+KMP algorithm
+Z algorithm
+Aho–Corasick algorithm
+Suffix Array
+Lowest Common Ancestor
+Union Find/Disjoint Set
+Heavy-light Decomposition
+Convex Hull
+Network flow
+Meet in the Middle
+Trie
+Topological Sorting
+square root decomposition
+Euler's Totient Function
+Matrix exponentiation
+Extended Euclid's algorithm
+Djikstra's algorithm
+Bellman-ford algorithm,
+Floyd-Warshall Algorithm
+Prim's Algorithm
+Kruskal's Algorithm
+RMQ & LCA
+
+
+https://www.geeksforgeeks.org/how-to-prepare-for-acm-icpc/

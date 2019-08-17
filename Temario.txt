@@ -1,0 +1,30 @@
+Temas importantes:
+
+-Convex Hull
+-GCD, MCM *
+-Fast pow *
+-Segment tree *
+-Seive of erathostenes (prime numbers)
+-Circular Sweep
+
+Strings:
+- KMP (Knuth-Morris-Pratt) *
+- Z function
+- Manacher *
+- Hash strings
+- Trie
+- Longest Common Subsequence (DP)
+- Longest Common Substring (usando Hash)
+- Suffix Array/ Suffix tree/ Suffix automaton
+
+-Maximum Bipartite Matching
+
+MATH - PROB
+-Combinatoria
+-Valor esperado
+-Probabilidad
+-Gauss Jordan
+
+-TSP
+-Problema de la mochila
+-LIS
