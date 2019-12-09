@@ -8,7 +8,6 @@ typedef pair<ii, ll> iii;
 typedef vector<ii> vii;
 typedef vector<pair<ii, ll>> viii;
 
-
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define ROF(i, a, b) for(ll i=ll(a); i>=ll(b); i--)
 #define pb push_back
@@ -16,7 +15,7 @@ typedef vector<pair<ii, ll>> viii;
 #define all(a) (a).begin(), (a).end()
 #define ifile(a) freopen((a), "r", stdin)
 #define ofile(a) freopen((a), "w", stdout)
-#define sync ios_base::sync_with_stdio(false); cin.tie(NULL); //cout.tie(NULL)
+#define sync ios_base::sync_with_stdio(false); cin.tie(NULL); //////cout.tie(NULL)
 #define PI 3.1415926535897932384626433832795
 #define mem(x, val) memset((x), (val), sizeof(x))
 #define sz(x) (ll)(x).size()
@@ -27,11 +26,10 @@ typedef vector<pair<ii, ll>> viii;
 #define EPS 1e-6
 #define MOD 1000000007
 #define etr "\n"
-#define INF 1E9 + 1;
+#define INF 1E15
+ll cases;
 
-ll elephant[200005];
-ll bears[200005];
-ll epattern[200005];
+ll N, M, n, m;
 
 
 void kmp(string &a, string &b){
@@ -39,7 +37,6 @@ void kmp(string &a, string &b){
 	ll prev = 0;
 	FOR(i, 1, a.length()){
 		while(a[i] != a[prev] && prev > 0) prev = preSuArr[prev-1];
-
 		if(a[i] == a[prev]){
 			prev ++;
 			preSuArr[i] = prev;
@@ -49,75 +46,53 @@ void kmp(string &a, string &b){
 
 	ll res = 0;
 	prev = 0;
-	FOR(i, 0, b.length()){
-		while(b[i] != a[prev] && prev > 0)	prev = preSuArr[prev-1];
-		if(b[i] == a[prev]) prev ++;
+	ll i = 0;
+	while(i < b.length()){
+		while(prev > 0 && (n - prev >= N - (i % N) || (a[prev] != '.' && b[i] != a[prev])))	prev = preSuArr[prev-1];
+		//condistion to continue
+		if(n - prev >= N - (i % N)){
+			i += N - (i % N);
+			prev = 0;
+			continue;
+		}
+		if(a[prev] == '.' || b[i] == a[prev]) prev ++;
 		if(prev >= a.length()){
 			res ++;
 			prev = preSuArr[prev-1];
 		}
+		i ++;
 	}
 	cout << res << etr;
 }
 
-void generatePattern(ll e){
-	epattern[0] = 0;
-	ll prev = 0;
-	FOR(i, 1, e){
-		while(elephant[i] != elephant[prev] && prev > 0) prev = epattern[prev-1];
-
-		if(elephant[i] == elephant[prev]){
-			prev ++;
-			epattern[i] = prev;
-		}
-		else epattern[i] = 0;
+void solve(){
+	cin >> N >> M;
+	string hay = "";
+	FOR(i, 0, N){
+		string s;
+		cin >> s;
+		hay += s;
 	}
+	string needle = "";
+	cin >> n >> m;
+	FOR(i, 0, n){
+		string s;
+		cin >> s;
+		needle += s;
+		if(i != n-1){
+			FOR(j, 0, M-m) needle += '.';
+		}
+	}
+	cout << needle << etr;
+	cout << hay << etr;
+	kmp(needle, hay);
 }
 
 int main(){
 	sync;
-	ll e, b;
-	cin >> b >> e;
-
-	ll last, last2;
-	cin >> last;
-
-	FOR(i, 0, b-1){
-		cin >> last2;
-		bears[i] = last2 - last;
-		last = last2;
+	cin >> cases;
+	FOR(i, 0, cases){
+		solve();
 	}
-
-	cin >> last;
-	FOR(i, 0, e-1){
-		cin >> last2;
-		elephant[i] = last2 - last;
-		last = last2;
-	}
-
-	e--; 
-	b--;
-	if(e > b){
-		cout << 0 << etr;
-		return 0;
-	}
-	else if(e == 0){
-		cout << b+1 << etr;
-		return 0;
-	}
-
-	generatePattern(e);
-
-	ll res = 0;
-	ll prev = 0;
-	FOR(i, 0, b){
-		while(bears[i] != elephant[prev] && prev > 0)	prev = epattern[prev-1];
-		if(bears[i] == elephant[prev]) prev ++;
-		if(prev >= e){
-			res ++;
-			prev = epattern[prev-1];
-		}
-	}
-	cout << res << etr;
 	return 0;
 }

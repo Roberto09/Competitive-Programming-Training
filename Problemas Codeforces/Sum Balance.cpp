@@ -1,13 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
- 
+
 typedef long long ll;
 typedef vector<ll> vi;
 typedef pair<ll, ll> ii;
 typedef pair<ii, ll> iii;
 typedef vector<ii> vii;
 typedef vector<pair<ii, ll>> viii;
- 
+
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define ROF(i, a, b) for(ll i=ll(a); i>=ll(b); i--)
 #define pb push_back
@@ -26,23 +26,47 @@ typedef vector<pair<ii, ll>> viii;
 #define EPS 1e-6
 #define MOD 1000000007
 #define etr "\n"
-#define INF 1E18
- 
-ll n;
- 
-ll arr[5000050];
-ll app[1000000];
+#define INF 10E10
 
-vi srchs;
+ll n;
+
+ll dp[40000][5050];
+
+unordered_set<ll> arr[15];
+ll psum[15];
+
+bool cdp(ll msk, ll act, ll sum, ll add){
+    
+    msk |= (1<<act);
+    ll act = psum[act] + add;
+    ll dif = act-sum;
+    if(dp[mks][sum] != -1) return dp[mks][dif];
+
+    ll snd;
+    if(!arr[act].count(dif)) return dp[mks][dif] = false;
+    else snd = arr[act][dif];
+
+    FOR(i, 0, 15){
+        if(msk&(1<<act)) continue;
+        if(cdp(msk, i, sum, snd)) return dp[mks][dif] = true;
+    }
+    return dp[mks][dif] = false;
+}
 
 int main(){
     cin >> n;
-    ll stp = 1;
-    FOR(i, 0, n) stp *= 2;
-    FOR(i, 0, stp)
-        cin >> arr[i];
+    FOR(i,0, n){
+        ll k;
+        cin >> k;
+        FOR(i, 0, k){
+            ll a;
+            cin >> a; arr[ii].insert(a);
+            psum[i] += a;
+        }
+    }
 
-    
+
+    cout << cdp() << etr;
 
     return 0;
 }

@@ -1,13 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+ 
 typedef long long ll;
 typedef vector<ll> vi;
 typedef pair<ll, ll> ii;
 typedef pair<ii, ll> iii;
 typedef vector<ii> vii;
 typedef vector<pair<ii, ll>> viii;
-
+ 
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define ROF(i, a, b) for(ll i=ll(a); i>=ll(b); i--)
 #define pb push_back
@@ -28,40 +28,92 @@ typedef vector<pair<ii, ll>> viii;
 #define etr "\n"
 #define INF 1E18
 
-ll n, q;
+ll c, u, d, t, n;
+ll arr[1000000];
 
-/*
-	8
-	8 7 3 1 7 0 9 4
-	3
-	1 8
-	2 5
-	7 7
-*/
 
-ll arr[100050];
-
-unordered_map<ll, unordered_map<ll, ii>> dp;
-
-ii solve(ll l, ll r){
-	if(l == r) return mp(0, arr[r]);
-	if(dp.count(l) && dp[l].count(r)) return dp[l][r];
-	ii left = solve(l, l + (r-l) / 2), right = solve(l + (r-l) / 2 + 1, r);
-	ll res = left.first + right.first;
-	if(left.second + right.second >= 10) res ++;
-	return dp[l][r] = mp(res, (left.second + right.second) % 10);
+void strt(bool turn){
+    ll xc = c, xu = u;
+    ll curr = 0;
+    while(1){
+        if(xc == 0 && xu == 0) break;
+        if(turn && xc){
+            xc --;
+            arr[curr] = 0;
+        }
+        else if(!turn && xu){
+            xu --;
+            arr[curr] = 1;
+        }
+        curr ++;
+        turn = !turn;
+    }
 }
 
-int main(){
-	sync;
-	cin >> n;
-	FOR(i, 0, n) cin >> arr[i];
-	cin >> q;
-	ll l, r;
-	FOR(i, 0, q){
-		cin >> l >> r;
-		cout << solve(l - 1, r - 1).first << etr;
-	}
+void end(bool turn){
+    ll xd = d, xt = t;
+    ll curr = n-1;
+    while(curr >= 0){
+        if(xd == 0 && xt == 0) break;
+        if(turn && xd){
+            xd --;
+            arr[curr] = 2;
+        }
+        else if(!turn && xt){
+            xt --;
+            arr[curr] = 3;
+        }
+        curr --;
+        turn = !turn;
+    }
+}
 
-	return 0;
+
+bool verify(){
+    ll p = arr[0];
+    FOR(i, 1, n){
+        if(abs(arr[i]-p) != 1) return false;
+        p = arr[i];
+    }
+    return true;
+}
+
+void solve(){
+    cin >> c >> u >> d >> t;
+    n = c + u + d + t;
+
+    if(n == 1){
+        cout << "YES" << etr;
+        if(c) cout << 0 << etr;
+        else if(u) cout << 1 << etr;
+        else if(d) cout << 2 << etr;
+        else cout << 3 << etr;
+        return;
+    }
+
+    FOR(b, 0, 4){
+        FOR(i, 0, n) arr[i] = -10;
+
+        strt(b&1);
+        end(b&2);
+
+        if(verify()){
+            cout << "YES" << etr;
+            FOR(i, 0, n){
+                cout << arr[i] << " ";
+            }
+            return;
+        }
+    }
+
+    cout <<"NO" << etr;
+}
+
+
+
+int main(){
+    sync;
+    ll t = 1;
+    FOR(i, 0, t) solve();
+    return 0;
 }

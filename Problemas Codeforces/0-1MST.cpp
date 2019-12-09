@@ -1,13 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
- 
+
 typedef long long ll;
 typedef vector<ll> vi;
 typedef pair<ll, ll> ii;
 typedef pair<ii, ll> iii;
 typedef vector<ii> vii;
 typedef vector<pair<ii, ll>> viii;
- 
+
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define ROF(i, a, b) for(ll i=ll(a); i>=ll(b); i--)
 #define pb push_back
@@ -26,23 +26,45 @@ typedef vector<pair<ii, ll>> viii;
 #define EPS 1e-6
 #define MOD 1000000007
 #define etr "\n"
-#define INF 1E18
- 
-ll n;
- 
-ll arr[5000050];
-ll app[1000000];
+#define INF 10E10
+ll n, e;
 
-vi srchs;
+unordered_map<ll, unordered_set<ll>> adj;
+unordered_set<ll> nds;
+bool vstd[100050];
+
+void dfs(ll nd){
+    vstd[nd] = true;
+    vi canVisit;
+    for(ll ng : nds){
+        if(!adj[nd].count(ng)) canVisit.pb(ng);
+    }
+    for(ll ng : canVisit) nds.erase(ng);
+    for(ll ng : canVisit) dfs(ng);
+}
 
 int main(){
     cin >> n;
-    ll stp = 1;
-    FOR(i, 0, n) stp *= 2;
-    FOR(i, 0, stp)
-        cin >> arr[i];
-
+    FOR(i, 0, n)
+        nds.insert(i+1);
     
+    cin >> e;
+    FOR(i, 0, e){
+        ll a, b;
+        cin >> a >> b;
+        adj[a].insert(b);
+        adj[b].insert(a);
+    }
 
+    ll cnt = 0;
+    vstd[1] = true;
+    dfs(1);
+    FOR(i, 1, n+1){
+        if(vstd[i]) continue;
+        nds.erase(i);
+        cnt ++;
+        dfs(i);
+    }
+    cout << cnt << etr;
     return 0;
 }

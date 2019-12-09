@@ -1,4 +1,5 @@
-#include <bits/stdc++.h>
+
+ #include <bits/stdc++.h>
 using namespace std;
  
 typedef long long ll;
@@ -15,7 +16,7 @@ typedef vector<pair<ii, ll>> viii;
 #define all(a) (a).begin(), (a).end()
 #define ifile(a) freopen((a), "r", stdin)
 #define ofile(a) freopen((a), "w", stdout)
-#define sync ios_base::sync_with_stdio(false); cin.tie(NULL); ////cout.tie(NULL)
+#define sync ios_base::sync_with_stdio(false); cin.tie(NULL); //cout.tie(NULL)
 #define PI 3.1415926535897932384626433832795
 #define mem(x, val) memset((x), (val), sizeof(x))
 #define sz(x) (ll)(x).size()
@@ -27,22 +28,23 @@ typedef vector<pair<ii, ll>> viii;
 #define MOD 1000000007
 #define etr "\n"
 #define INF 1E18
- 
-ll n;
- 
-ll arr[5000050];
-ll app[1000000];
-
-vi srchs;
+ll a[2];
 
 int main(){
-    cin >> n;
-    ll stp = 1;
-    FOR(i, 0, n) stp *= 2;
-    FOR(i, 0, stp)
-        cin >> arr[i];
+	sync;
+	cin >> a[0] >> a[1];
+	sort(a, a+2);
+	ll n = a[0], m = a[1];
 
-    
+	if(n == 1){
+		cout << m << etr;
+		return 0;
+	}
+	if(n == 2){
+		cout << 2*(2*(m/4) + min(m%4, 2ll));
+		return 0;
+	}
+	cout << (m*n + 1)/2 << etr;
 
-    return 0;
+	return 0;
 }

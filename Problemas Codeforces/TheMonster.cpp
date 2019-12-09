@@ -15,7 +15,7 @@ typedef vector<pair<ii, ll>> viii;
 #define all(a) (a).begin(), (a).end()
 #define ifile(a) freopen((a), "r", stdin)
 #define ofile(a) freopen((a), "w", stdout)
-#define sync ios_base::sync_with_stdio(false); cin.tie(NULL); ////cout.tie(NULL)
+#define sync ios_base::sync_with_stdio(false); cin.tie(NULL); //cout.tie(NULL)
 #define PI 3.1415926535897932384626433832795
 #define mem(x, val) memset((x), (val), sizeof(x))
 #define sz(x) (ll)(x).size()
@@ -27,22 +27,51 @@ typedef vector<pair<ii, ll>> viii;
 #define MOD 1000000007
 #define etr "\n"
 #define INF 1E18
- 
-ll n;
- 
-ll arr[5000050];
-ll app[1000000];
 
-vi srchs;
+string s;
+
+ll valid(ll j){
+	ll act = 0;
+	ll ttl = 0;
+	ll usedl = 0;
+	ll usedr = 0;
+	ll res = 0;
+	FOR(i, j, s.length()){
+		if(s[i]=='(')
+			act ++;
+		else if(s[i] == ')'){
+			act --;
+			if(act < 0){
+				if(usedl > 0){
+					usedl --;
+					act ++;
+				}
+				else if((ttl-usedl)-usedr > 0){
+					usedr ++;
+					act ++;
+				}
+				else return res;
+			}
+		}
+		else{
+			ttl ++;
+			if(act > 0){
+				act --;
+				usedl ++;
+			}
+		}
+		if (act == 0 && ((ttl - usedl - usedr)%2 ==0)) res ++;
+	}
+	return res;
+}
 
 int main(){
-    cin >> n;
-    ll stp = 1;
-    FOR(i, 0, n) stp *= 2;
-    FOR(i, 0, stp)
-        cin >> arr[i];
-
-    
-
-    return 0;
+	sync;
+	cin >> s;
+	ll cnt = 0;
+	FOR(i, 0, s.length()){
+		cnt += valid(i);
+	}
+	cout << cnt << etr;
+	return 0;
 }

@@ -27,22 +27,59 @@ typedef vector<pair<ii, ll>> viii;
 #define MOD 1000000007
 #define etr "\n"
 #define INF 1E18
- 
 ll n;
- 
-ll arr[5000050];
-ll app[1000000];
 
-vi srchs;
+unordered_set<ll> pf;
+ll s[1000050];
+
+void pfc(ll n){
+    while (n % 2 == 0){  
+        pf.insert(2);
+        n = n/2;  
+    }
+    for (int i = 3; i <= sqrt(n); i = i + 2)  {  
+        while (n % i == 0)  {  
+            pf.insert(i); 
+            n = n/i;  
+        }  
+    }
+    if (n > 2)  
+        pf.insert(n);
+
+}
+
+
+ll calc(ll k){
+    ll res = 0;
+    FOR(i, 0, n-1) res += min(s[i] % k, k-s[i]%k);
+    return res;
+}
+
 
 int main(){
+    sync;
     cin >> n;
-    ll stp = 1;
-    FOR(i, 0, n) stp *= 2;
-    FOR(i, 0, stp)
-        cin >> arr[i];
+    ll ttl = 0;
+    ll prev = 0;
+    FOR(i, 0, n){
+        ll a;
+        cin >> a;
+        prev += a;
+        s[i] = prev;
+    }
+    ttl = prev;
+    if(ttl == 1){
+        cout << -1 << etr;
+        return 0;
+    }
+    pfc(ttl);
 
-    
+    ll res = INF;
+    for(ll i : pf){
+        res = min(res, calc(i));
+    }
+
+    cout << res << etr;
 
     return 0;
 }

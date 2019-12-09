@@ -28,21 +28,30 @@ typedef vector<pair<ii, ll>> viii;
 #define etr "\n"
 #define INF 1E18
  
-ll n;
+ll n, k , d;
+ll arr[500050];
+ll ps[500050];
  
-ll arr[5000050];
-ll app[1000000];
-
-vi srchs;
-
 int main(){
-    cin >> n;
-    ll stp = 1;
-    FOR(i, 0, n) stp *= 2;
-    FOR(i, 0, stp)
-        cin >> arr[i];
-
-    
-
-    return 0;
+	sync;
+	cin >> n >> k >> d;
+	FOR(i, 0, n) cin >> arr[i];
+	sort(arr, arr+n);
+	map<ll, ll> app;
+	app[INF] = n;
+	ROF(i, n-1, 0){
+		ll nm = arr[i];
+		ll tfnd = nm + d;
+		auto op = app.upper_bound(tfnd);
+		if(op->second - i >= k){
+			if(ps[i + k] - ps[op->second+1] || op->second == n) ps[i] = 1;
+		}
+		ps[i] += ps[i+1];
+		app[nm] = i;
+	}
+ 
+	if(ps[0] > ps[1]) cout << "YES" << etr;
+	else cout << "NO" << etr;
+ 
+	return 0;
 }

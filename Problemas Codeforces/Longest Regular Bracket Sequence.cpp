@@ -1,13 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
- 
+
 typedef long long ll;
 typedef vector<ll> vi;
 typedef pair<ll, ll> ii;
 typedef pair<ii, ll> iii;
 typedef vector<ii> vii;
 typedef vector<pair<ii, ll>> viii;
- 
+
 #define FOR(i, a, b) for(ll i=ll(a); i<ll(b); i++)
 #define ROF(i, a, b) for(ll i=ll(a); i>=ll(b); i--)
 #define pb push_back
@@ -26,23 +26,35 @@ typedef vector<pair<ii, ll>> viii;
 #define EPS 1e-6
 #define MOD 1000000007
 #define etr "\n"
-#define INF 1E18
- 
-ll n;
- 
-ll arr[5000050];
-ll app[1000000];
+#define INF 1E15
 
-vi srchs;
+string s;
+map<ll, ll> occ;
+
+ii getBest(){
+
+	ll cnt = 0;
+	ll racha = 0;
+
+	FOR(i, 0, s.size()){
+		char c = s[i];
+		if(c == '('){
+			cnt ++;
+		}
+		else{
+			cnt --;
+			racha ++;
+			if()
+		}
+	}
+}
 
 int main(){
-    cin >> n;
-    ll stp = 1;
-    FOR(i, 0, n) stp *= 2;
-    FOR(i, 0, stp)
-        cin >> arr[i];
+	sync;
+	cin >> s;
 
-    
+	ii res = getBest();
+	cout << res.first << " " << res.second << etr;
 
-    return 0;
+	return 0;
 }

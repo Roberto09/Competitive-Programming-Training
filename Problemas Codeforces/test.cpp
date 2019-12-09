@@ -15,7 +15,7 @@ typedef vector<pair<ii, ll>> viii;
 #define all(a) (a).begin(), (a).end()
 #define ifile(a) freopen((a), "r", stdin)
 #define ofile(a) freopen((a), "w", stdout)
-#define sync ios_base::sync_with_stdio(false); cin.tie(NULL); ////cout.tie(NULL)
+#define sync ios_base::sync_with_stdio(false); cin.tie(NULL); //cout.tie(NULL)
 #define PI 3.1415926535897932384626433832795
 #define mem(x, val) memset((x), (val), sizeof(x))
 #define sz(x) (ll)(x).size()
@@ -27,22 +27,19 @@ typedef vector<pair<ii, ll>> viii;
 #define MOD 1000000007
 #define etr "\n"
 #define INF 1E18
- 
-ll n;
- 
-ll arr[5000050];
-ll app[1000000];
 
-vi srchs;
+unordered_map<ll, ll> res;
+
+ll rec(ll x){
+    if(res.count(x)) return res[x];
+    if(x == 0) return 1;
+    return res[x] = rec(x);
+}
 
 int main(){
-    cin >> n;
-    ll stp = 1;
-    FOR(i, 0, n) stp *= 2;
-    FOR(i, 0, stp)
-        cin >> arr[i];
+    sync;
 
-    
-
+    rec(20);
+    cout << res[5];
     return 0;
 }
