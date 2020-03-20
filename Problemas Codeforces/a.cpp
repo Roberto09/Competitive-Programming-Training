@@ -22,98 +22,102 @@ typedef vector<pair<ii, ll>> viii;
 #define endl '\n'
 #define clockon ll t = 1; while (t--) { clock_t z = clock();
 #define clockoff debug("Elapsed Time: %.3f\n", (double)(clock() - z) / CLOCKS_PER_SEC); }
-#define oo 2000000000000000000LL
 #define EPS 1e-6
 #define MOD 1000000007
 #define etr "\n"
 #define INF 1E18
+#define mx 100
 
-ll c, u, d, t, n;
-ll arr[1000000];
+ll n;
+ii arr[mx];
 
 
-void strt(bool turn){
-    ll xc = c, xu = u;
-    ll curr = 0;
-    while(1){
-        if(xc == 0 && xu == 0) break;
-        if(turn && xc){
-            xc --;
-            arr[curr] = 0;
-        }
-        else if(!turn && xu){
-            xu --;
-            arr[curr] = 1;
-        }
-        curr ++;
-        turn = !turn;
-    }
-}
+struct DisjointSet{
+    DisjointSet(ll n);
+    ll find(ll node);
+    bool merge(ll node1, ll node2);
+    void print();
 
-void end(bool turn){
-    ll xd = d, xt = t;
-    ll curr = n-1;
-    while(curr >= 0){
-        if(xd == 0 && xt == 0) break;
-        if(turn && xd){
-            xd --;
-            arr[curr] = 2;
-        }
-        else if(!turn && xt){
-            xt --;
-            arr[curr] = 3;
-        }
-        curr --;
-        turn = !turn;
-    }
+    ll size;
+    ll nodes[mx];
+};
+
+DisjointSet::DisjointSet(ll n){
+    size = n;
+    fill(nodes, nodes+n, -1);
 }
 
 
-bool verify(){
-    ll p = arr[0];
-    FOR(i, 1, n){
-        if(abs(arr[i]-p) != 1) return false;
-        p = arr[i];
+ll DisjointSet::find(ll node){
+    if(nodes[node] < 0) return node;
+    nodes[node] = find(nodes[node]);
+    return nodes[node];
+}
+
+bool DisjointSet::merge(ll node1, ll node2){
+    ll p1 = find(node1);
+    ll p2 = find(node2);
+
+    if(p1 == p2) return false;
+
+    ll r1 = nodes[p1];
+    ll r2 = nodes[p2];
+
+    //r1 tiene mejor rango
+    if(r1 <= r2){
+        nodes[p1] += nodes[p2];
+        nodes[p2] = p1;
     }
+    else{
+        nodes[p2] += nodes[p1];
+        nodes[p1] = p2;
+    }
+
     return true;
 }
 
 void solve(){
-    cin >> c >> u >> d >> t;
-    n = c + u + d + t;
-
-    if(n == 1){
-        cout << "YES" << etr;
-        if(c) cout << 0 << etr;
-        else if(u) cout << 1 << etr;
-        else if(d) cout << 2 << etr;
-        else cout << 3 << etr;
-        return;
+    cin >> n;
+    FOR(i, 0, n){
+        ll a, b;
+        cin >> a >> b;
+        arr[i] = mp(a, b);
     }
 
-    FOR(b, 0, 4){
-        FOR(i, 0, n) arr[i] = -10;
+    DisjointSet ds(n);
 
-        strt(b&1);
-        end(b&2);
+    sort(arr, arr+n, [](const auto &a, const auto &b){
+        return a.first < b.first;
+    });
 
-        if(verify()){
-            cout << "YES" << etr;
-            FOR(i, 0, n){
-                cout << arr[i] << " ";
+    map<ll, ll> prev;
+    ll e = 0;
+    FOR(i, 0, n){
+        ii o = arr[i];
+        auto it = prev.lower_bound(o.first);
+        for(; it != prev.end(); it ++){
+            if(it->first < o.second){
+                ll a = i, b = it->second;
+                e++;
+                if(!ds.merge(a, b)){
+                    cout << "NO" << etr;
+                    return;
+                }
             }
-            return;
+            else break;
         }
+        prev[o.second] = i;
     }
 
-    cout <<"NO" << etr;
+    if(e == n-1)
+        cout << "YES" << etr;
+    else cout << "NO" << etr;
 }
 
-
-
 int main(){
-    sync;
+    //sync;
     ll t = 1;
+    //cin >> t;
     FOR(i, 0, t) solve();
     return 0;
 }

@@ -15,7 +15,7 @@ typedef vector<pair<ii, ll>> viii;
 #define all(a) (a).begin(), (a).end()
 #define ifile(a) freopen((a), "r", stdin)
 #define ofile(a) freopen((a), "w", stdout)
-#define sync ios_base::sync_with_stdio(false); cin.tie(NULL); ////cout.tie(NULL)
+#define sync ios_base::sync_with_stdio(false); cin.tie(NULL); //cout.tie(NULL)
 #define PI 3.1415926535897932384626433832795
 #define mem(x, val) memset((x), (val), sizeof(x))
 #define sz(x) (ll)(x).size()
@@ -26,59 +26,31 @@ typedef vector<pair<ii, ll>> viii;
 #define EPS 1e-6
 #define MOD 1000000007
 #define etr "\n"
-#define INF 1E18
+#define INF 10E10
 
-ii arr[100];
-ll n, m;
+ll n;
+ll arr[25];
 
-ll dp[100050];
+vi res;
 
-/*
-3 595
-43 2
-300 4
-554 10
-
-*/
-
-
-bool add(ll l, ll r, ll addr){
-    if(r >= m && l < 0) return false;
-    l = max(0ll, l);
-    r = min(m-1, r);
-    dp[r] = min(dp[r], addr + (l == 0 ? 0 : dp[l-1]));
-    return true;
+void solve(ll idx, ll acum){
+    if(idx == n) {res.pb(acum); return;}
+    solve(idx+1, acum);
+    solve(idx+1, acum + arr[idx]);
 }
 
 int main(){
-    cin >> n >> m;
-    FOR(i, 0, n) cin >> arr[i].first >> arr[i].second;
-    FOR(i, 0, m) dp[i] = INF;
-    sort(arr, arr+n);
-
-
-    FOR(i, 0, n){
-        ii pr = arr[i];
-        ll p, s; p = pr.first-1, s = pr.second;
-
-        ll l = p-s, r = p+s;
-
-        ll cnt = 0;
-
-        add(max(0ll, l), min(r, m-1), 0);
-        while(add(l, r, cnt)){
-
-            l--; r++; cnt ++;
-        }
-
-
-        ll mn = INF;
-        ROF(i, m-1, 0){
-            mn = min(mn, dp[i]);
-            dp[i] = mn;
-        }
+    cin >>  n;
+    string s;
+    cin >> s;
+    FOR(i, 0, s.length()){
+        arr[i] = s[i];
     }
-    cout << dp[m-1] << etr;
-
+    solve(0, 0);
+    sort(res.begin(), res.end());
+    for(ll k : res){
+        cout << k << " ";
+    }
+    cout << etr;
     return 0;
 }
